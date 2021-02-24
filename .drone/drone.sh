@@ -5,9 +5,11 @@
 # (See accompanying file LICENSE.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
 set -e
+set -x
 export TRAVIS_BUILD_DIR=$(pwd)
 export DRONE_BUILD_DIR=$(pwd)
 export TRAVIS_BRANCH=$DRONE_BRANCH
+export TRAVIS_EVENT_TYPE=$DRONE_BUILD_EVENT
 export VCS_COMMIT_ID=$DRONE_COMMIT
 export GIT_COMMIT=$DRONE_COMMIT
 export REPO_NAME=$DRONE_REPO
@@ -18,6 +20,7 @@ export BOOST_ROOT="$HOME/boost"
 export BOOST_BUILD_PATH="$HOME/build-boost"
 export TRAVIS_PULL_REQUEST=${DRONE_PULL_REQUEST:-false}
 export TRAVIS_REPO_SLUG=$REPO_NAME
+
 
 if [ "$DRONE_JOB_BUILDTYPE" == "boost" ]; then
 
@@ -64,6 +67,7 @@ toolset.flags clang-linux.compile OPTIONS <known-warnings>suppress :
     -Wno-deprecated-copy      # Proto, Phoenix
   : unchecked ;
 
+EOF
 # Determining the root branch
 if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   export BRANCH=$TRAVIS_BRANCH
